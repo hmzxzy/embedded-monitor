@@ -37,15 +37,19 @@ int main() {
 
     int ram_kb = get_ram();
     float uptime = get_uptime();
+    float cpu = get_cpu_usage();
+    const char* hostname = get_hostname();
 
-    char json_buffer[256];
+    char json_buffer[512];
     snprintf(json_buffer, sizeof(json_buffer),
-             "{ \"ram_kb\": %d, \"uptime_sec\": %.2f }\n", ram_kb, uptime);
+             "{ \"hostname\": \"%s\", \"ram_kb\": %d, \"cpu_usage\": %.2f, \"uptime_sec\": %.2f }\n",
+             hostname, ram_kb, cpu, uptime);
 
     send(client_socket, json_buffer, strlen(json_buffer), 0);
 
     close(client_socket);
     close(server_socket);
+
     return 0;
 }
 
